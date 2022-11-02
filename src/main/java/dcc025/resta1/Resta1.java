@@ -34,5 +34,8 @@ public class Resta1 {
                            branco], [coluna do espaco em branco].""");
 
         System.out.println("\n\n\nBORA JOGAR!!");
-    }  
+        
+        Tabuleiro jogo = new Tabuleiro();
+        jogo.inicializar();
+    } 
 }
