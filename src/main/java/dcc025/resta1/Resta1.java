@@ -37,5 +37,7 @@ public class Resta1 {
         
         Tabuleiro jogo = new Tabuleiro();
         jogo.inicializar();
+        
+        
     } 
 }
