@@ -56,6 +56,7 @@ public class Tabuleiro {
     }
 //------------------------------------------------------------------------------
 
+//Opções do jogo
     public void opcoes(String tabuleiroResta1[][]) {
         String opcaoJogo;
         desenha(tabuleiroResta1);
@@ -74,7 +75,9 @@ public class Tabuleiro {
         } else {
         }
     }
+//------------------------------------------------------------------------------
 
+//Definir a jogada
     public void definirJogada(String tabuleiroResta1[][]) {
 
         String jogada;
@@ -106,9 +109,9 @@ public class Tabuleiro {
                 opcoes(tabuleiroResta1);
             }
         }
-
     }
-
+//------------------------------------------------------------------------------
+//Inserir jogada válida
     public void inserirJogada(String tabuleiroValido[][], int lPeca, int cPeca, int lEvazio, int cEvazio) {
         int x, y;
 
@@ -121,7 +124,7 @@ public class Tabuleiro {
 
         opcoes(tabuleiroValido);
     }
-
+//------------------------------------------------------------------------------
     public static boolean verificarJogada(String tabuleiro[][], int linhaP, int colunaP, int linhaE, int colunaE) {
         boolean posicaoP = true, posicaoE = true, posicaoPaRemover = true;
 
