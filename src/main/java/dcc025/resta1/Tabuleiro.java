@@ -37,14 +37,14 @@ public class Tabuleiro {
         }
         tabuleiroJogo[4][4] = "0";
 
-        definirJogada(tabuleiroJogo);//chamada para a primeira jogada
+        opcoes(tabuleiroJogo);//chamada para a primeira jogada
     }
 //------------------------------------------------------------------------------
 
 //Desenha matriz tabuleiro
     public static void desenha(String jogo[][]) {
         System.out.println("\n************************************************************************");
-        System.out.println("                             //RESTA 1//");
+        System.out.println("                             //RESTA UM//");
         System.out.println("************************************************************************");
 
         for (int i = 0; i < 8; i++) {
@@ -56,62 +56,60 @@ public class Tabuleiro {
     }
 //------------------------------------------------------------------------------
 
-    public void definirJogada(String tabuleiroResta1[][]) {
-        boolean fimDojogo = false, validado = true;
-        int linhaP, linhaE, colunaP, colunaE;
+    public void opcoes(String tabuleiroResta1[][]) {
+        String opcaoJogo;
+        desenha(tabuleiroResta1);
 
-        // fimDojogo = verificarFimJogo(tabuleiroResta1);
-        if (!fimDojogo) {
-            do {
-                desenha(tabuleiroResta1);
-                String opcaoSelecionada;
+        System.out.println("Digite para selecionar alguma das opções: ");
+        System.out.println("[A] Para adicionar uma jogada.");
+        System.out.println("[reiniciar] Para começar de novo.");
+        System.out.println("[sair] Para encerrar o jogo.");
 
-                System.out.println("\nDigite: ");
-                System.out.println("[s] Para adicionar uma nova jogada;");
-                System.out.println("[reeniciar] Para reiniciar o jogo");
-                System.out.println("[sair] Para sair do jogo");
+        opcaoJogo = entrada.next();
 
-                opcaoSelecionada = entrada.next();
-
-                if (opcaoSelecionada.equalsIgnoreCase("sair")) {
-                    break;
-                } else if (opcaoSelecionada.equalsIgnoreCase("reeniciar")) {
-                    inicializar();
-                } else {
-
-                    System.out.println("\nInforme números de 0 a 6 para fazer uma jogada!");
-                    System.out.println
-        ("formato [linha da peca], [coluna da peca], [linha do espaco em branco], [coluna do espaco em branco]\n");
-                    do {
-                        System.out.print("[linha da peca]--> ");
-                        linhaP = entrada.nextInt();
-
-                        System.out.print("[coluna da peca]--> ");
-                        colunaP = entrada.nextInt();
-
-                        System.out.print("[linha do espaco em branco]--> ");
-                        linhaE = entrada.nextInt();
-
-                        System.out.print("[coluna do espaco em branco]--> ");
-                        colunaE = entrada.nextInt();
-
-                        validado = verificarJogada(tabuleiroResta1, linhaP, colunaP, linhaE, colunaE);
-
-                        if (validado) {
-                            inserirJogada(tabuleiroJogo, linhaP, colunaP, linhaE, colunaE);
-                            //fimDojogo = verificarFimJogo(tabuleiroJogo);
-                        } else {
-                            System.out.println("ERRO! posição e/ou movimento incorreto.");
-                        }
-                    } while (validado);
-                }
-            } while (!fimDojogo);
+        if (opcaoJogo.equalsIgnoreCase("A")) {
+            definirJogada(tabuleiroResta1);
+        } else if (opcaoJogo.equalsIgnoreCase("reiniciar")) {
+            inicializar();
         } else {
-            System.out.println("FIM DO JOGO");//teste
         }
     }
 
-    public static void inserirJogada(String tabuleiroValido[][], int lPeca, int cPeca, int lEvazio, int cEvazio) {
+    public void definirJogada(String tabuleiroResta1[][]) {
+
+        String jogada;
+        int lPeca, cPeca, lEBranco, cEBranco;
+        boolean jogadaValida;
+
+        System.out.println("Entre com o seguinte formato");
+        System.out.println("([linha da peça], [coluna da peça], [linha do espaço em branco], [coluna do espaço em branco])");
+
+        jogada = entrada.next();
+        String[] posicoes = jogada.split(",");
+
+        if (posicoes.length != 4) {
+            System.out.println("calor inválido, TENTE NOVAMENTE.");
+            definirJogada(tabuleiroResta1);
+        } else {
+
+            lPeca = Integer.parseInt(posicoes[0]);
+            cPeca = Integer.parseInt(posicoes[1]);
+            lEBranco = Integer.parseInt(posicoes[2]);
+            cEBranco = Integer.parseInt(posicoes[3]);
+
+            jogadaValida = verificarJogada(tabuleiroResta1, lPeca, cPeca, lEBranco, cEBranco);
+
+            if (jogadaValida) {
+                inserirJogada(tabuleiroResta1, lPeca, cPeca, lEBranco, cEBranco);
+            } else {
+                System.out.println("Jogada inválida! TENTE NOVAMENTE.");
+                opcoes(tabuleiroResta1);
+            }
+        }
+
+    }
+
+    public void inserirJogada(String tabuleiroValido[][], int lPeca, int cPeca, int lEvazio, int cEvazio) {
         int x, y;
 
         x = encontrarXpecaRemover(lPeca, cPeca, lEvazio, cEvazio);
@@ -121,7 +119,7 @@ public class Tabuleiro {
         tabuleiroValido[lEvazio + 1][cEvazio + 1] = "1";
         tabuleiroValido[x + 1][y + 1] = "0";
 
-        desenha(tabuleiroValido);
+        opcoes(tabuleiroValido);
     }
 
     public static boolean verificarJogada(String tabuleiro[][], int linhaP, int colunaP, int linhaE, int colunaE) {
@@ -129,7 +127,10 @@ public class Tabuleiro {
 
         if ((linhaP < 0 || linhaP > 6) || (linhaE < 0 || linhaE > 6) || (colunaP < 0 || colunaP > 6) || (colunaE < 0 || colunaE > 6)) {
             return false;
-        } else {
+        } else if (linhaP != linhaE && colunaP != colunaE) {
+            return false;
+        }
+        else {
             posicaoP = validarPosicaoPeca(tabuleiro, linhaP, colunaP);
             posicaoE = validarPosicaoVazio(tabuleiro, linhaE, colunaE);
             posicaoPaRemover = validarPosicaoRemover(tabuleiro, linhaP, colunaP, linhaE, colunaE);
@@ -163,7 +164,7 @@ public class Tabuleiro {
         x = encontrarXpecaRemover(linhaP, colunaP, linhaE, colunaE);
         y = encontrarYpecaRemover(linhaP, colunaP, linhaE, colunaE);
 
-        if (tabuleiro[x + 1][y + 1].contains("1")) {
+        if (tabuleiro[x + 1][y + 1].contains("1") && (x == linhaE + 1 || x == linhaE - 1 | y == colunaE + 1 || y == colunaE -1)) {
             return true;
         } else {
             return false;
@@ -190,7 +191,7 @@ public class Tabuleiro {
         if (colunaP == colunaE) {
             return y;
         } else {
-            if (linhaP > linhaE) {
+            if (colunaP > colunaE) {
                 y = colunaP - 1;
             } else {
                 y = colunaP + 1;
