@@ -59,20 +59,53 @@ public class Tabuleiro {
 //Opções do jogo
     public void opcoes(String tabuleiroResta1[][]) {
         String opcaoJogo;
+        boolean verificaFim = fim(tabuleiroResta1);
         desenha(tabuleiroResta1);
 
-        System.out.println("Digite para selecionar alguma das opções: ");
-        System.out.println("[A] Para adicionar uma jogada.");
-        System.out.println("[reiniciar] Para começar de novo.");
-        System.out.println("[sair] Para encerrar o jogo.");
+        if (verificaFim) {
 
-        opcaoJogo = entrada.next();
+            System.out.println("Digite para selecionar alguma das opções: ");
+            System.out.println("[A] Para adicionar uma jogada.");
+            System.out.println("[reiniciar] Para começar de novo.");
+            System.out.println("[sair] Para encerrar o jogo.");
 
-        if (opcaoJogo.equalsIgnoreCase("A")) {
-            definirJogada(tabuleiroResta1);
-        } else if (opcaoJogo.equalsIgnoreCase("reiniciar")) {
-            inicializar();
+            opcaoJogo = entrada.nextLine();
+
+            if (opcaoJogo.equalsIgnoreCase("A")) {
+                definirJogada(tabuleiroResta1);
+            } else if (opcaoJogo.equalsIgnoreCase("reiniciar")) {
+                inicializar();
+            } else if(opcaoJogo.equalsIgnoreCase("sair")){
+               
+            }
+            else {
+                System.out.println("OPÇÃO INVÁLIDA!");
+                opcoes(tabuleiroResta1);
+            }
         } else {
+            int cont = 0;
+            for (int i = 1; i < 8; i++) {
+                for (int j = 1; j < 8; j++) {
+                    if (tabuleiroResta1[i][j].contains("1")) {
+                        cont++;
+                    }
+                }
+            }
+
+            if (cont == 1) {
+                System.out.println("Parabéns vc ganhou!!");
+            } else {
+                System.out.println("Não há mais jogadas possíveis :(");
+            }
+
+            System.out.println("Deseja jogar novamente? (S/N)");
+            String decidir = entrada.next();
+
+            if (decidir.equalsIgnoreCase("s")) {
+                inicializar();
+            } else {
+
+            }
         }
     }
 //------------------------------------------------------------------------------
@@ -87,11 +120,11 @@ public class Tabuleiro {
         System.out.println("Entre com o seguinte formato");
         System.out.println("([linha da peça], [coluna da peça], [linha do espaço em branco], [coluna do espaço em branco])");
 
-        jogada = entrada.next();
-        String[] posicoes = jogada.split(",");
+        jogada = entrada.nextLine();
+        String[] posicoes = jogada.split(", ");
 
         if (posicoes.length != 4) {
-            System.out.println("calor inválido, TENTE NOVAMENTE.");
+            System.out.println("valor inválido, TENTE NOVAMENTE.");
             definirJogada(tabuleiroResta1);
         } else {
 
@@ -109,9 +142,11 @@ public class Tabuleiro {
                 opcoes(tabuleiroResta1);
             }
         }
+
     }
 //------------------------------------------------------------------------------
 //Inserir jogada válida
+
     public void inserirJogada(String tabuleiroValido[][], int lPeca, int cPeca, int lEvazio, int cEvazio) {
         int x, y;
 
@@ -125,6 +160,7 @@ public class Tabuleiro {
         opcoes(tabuleiroValido);
     }
 //------------------------------------------------------------------------------
+
     public static boolean verificarJogada(String tabuleiro[][], int linhaP, int colunaP, int linhaE, int colunaE) {
         boolean posicaoP = true, posicaoE = true, posicaoPaRemover = true;
 
@@ -132,8 +168,7 @@ public class Tabuleiro {
             return false;
         } else if (linhaP != linhaE && colunaP != colunaE) {
             return false;
-        }
-        else {
+        } else {
             posicaoP = validarPosicaoPeca(tabuleiro, linhaP, colunaP);
             posicaoE = validarPosicaoVazio(tabuleiro, linhaE, colunaE);
             posicaoPaRemover = validarPosicaoRemover(tabuleiro, linhaP, colunaP, linhaE, colunaE);
@@ -167,14 +202,14 @@ public class Tabuleiro {
         x = encontrarXpecaRemover(linhaP, colunaP, linhaE, colunaE);
         y = encontrarYpecaRemover(linhaP, colunaP, linhaE, colunaE);
 
-        if (tabuleiro[x + 1][y + 1].contains("1") && (x == linhaE + 1 || x == linhaE - 1 | y == colunaE + 1 || y == colunaE -1)) {
+        if (tabuleiro[x + 1][y + 1].contains("1") && (x == linhaE + 1 || x == linhaE - 1 | y == colunaE + 1 || y == colunaE - 1)) {
             return true;
         } else {
             return false;
         }
     }
 //------------------------------------------------------------------------------
-
+//Verificar a posição da peça para remover
     public static int encontrarXpecaRemover(int linhaP, int colunaP, int linhaE, int colunaE) {
         int x = linhaP;
         if (linhaP == linhaE) {
@@ -202,4 +237,28 @@ public class Tabuleiro {
         }
         return y;
     }
+//------------------------------------------------------------------------------
+//Verificar o fim do jogo
+    public boolean fim(String tabuleiroResta1[][]) {
+
+        boolean verificafimJogo = false;
+
+        for (int i = 1; i < 8; i++) {
+            for (int j = 1; j < 8; j++) {
+                if (tabuleiroResta1[i][j].contains("1")) {
+                    if (tabuleiroResta1[i - 1][j].contains("1") && tabuleiroResta1[i - 2][j].contains("0")) {
+                        return true;
+                    } else if (tabuleiroResta1[i + 1][j].contains("1") && tabuleiroResta1[i + 2][j].contains("0")) {
+                        return true;
+                    } else if (tabuleiroResta1[i][j - 1].contains("1") && tabuleiroResta1[i][j - 2].contains("0")) {
+                        return true;
+                    } else if (tabuleiroResta1[i][j + 1].contains("1") && tabuleiroResta1[i][j + 2].contains("0")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return verificafimJogo;
+    }
+//------------------------------------------------------------------------------
 }
