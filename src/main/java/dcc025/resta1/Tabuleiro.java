@@ -64,30 +64,47 @@ public class Tabuleiro {
         if (!fimDojogo) {
             do {
                 desenha(tabuleiroResta1);
-                System.out.println("\nInforme números de 0 a 6 para fazer uma jogada!");
-                System.out.println("formato [linha da peca], [coluna da peca], [linha do espaco em branco], [coluna do espaco em branco]\n");
-                do {
-                    System.out.print("[linha da peca]--> ");
-                    linhaP = entrada.nextInt();
+                String opcaoSelecionada;
 
-                    System.out.print("[coluna da peca]--> ");
-                    colunaP = entrada.nextInt();
+                System.out.println("\nDigite: ");
+                System.out.println("[s] Para adicionar uma nova jogada;");
+                System.out.println("[reeniciar] Para reiniciar o jogo");
+                System.out.println("[sair] Para sair do jogo");
 
-                    System.out.print("[linha do espaco em branco]--> ");
-                    linhaE = entrada.nextInt();
+                opcaoSelecionada = entrada.next();
 
-                    System.out.print("[coluna do espaco em branco]--> ");
-                    colunaE = entrada.nextInt();
+                if (opcaoSelecionada.equalsIgnoreCase("sair")) {
+                    break;
+                } else if (opcaoSelecionada.equalsIgnoreCase("reeniciar")) {
+                    inicializar();
+                } else {
 
-                    validado = verificarJogada(tabuleiroResta1, linhaP, colunaP, linhaE, colunaE);
+                    System.out.println("\nInforme números de 0 a 6 para fazer uma jogada!");
+                    System.out.println
+        ("formato [linha da peca], [coluna da peca], [linha do espaco em branco], [coluna do espaco em branco]\n");
+                    do {
+                        System.out.print("[linha da peca]--> ");
+                        linhaP = entrada.nextInt();
 
-                    if (validado) {
-                        inserirJogada(tabuleiroJogo, linhaP, colunaP, linhaE, colunaE);
-                        //fimDojogo = verificarFimJogo(tabuleiroJogo);
-                    } else {
-                        System.out.println("ERRO! posição e/ou movimento incorreto.");
-                    }
-                } while (validado);
+                        System.out.print("[coluna da peca]--> ");
+                        colunaP = entrada.nextInt();
+
+                        System.out.print("[linha do espaco em branco]--> ");
+                        linhaE = entrada.nextInt();
+
+                        System.out.print("[coluna do espaco em branco]--> ");
+                        colunaE = entrada.nextInt();
+
+                        validado = verificarJogada(tabuleiroResta1, linhaP, colunaP, linhaE, colunaE);
+
+                        if (validado) {
+                            inserirJogada(tabuleiroJogo, linhaP, colunaP, linhaE, colunaE);
+                            //fimDojogo = verificarFimJogo(tabuleiroJogo);
+                        } else {
+                            System.out.println("ERRO! posição e/ou movimento incorreto.");
+                        }
+                    } while (validado);
+                }
             } while (!fimDojogo);
         } else {
             System.out.println("FIM DO JOGO");//teste
