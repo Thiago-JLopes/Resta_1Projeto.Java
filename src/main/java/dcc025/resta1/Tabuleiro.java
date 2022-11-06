@@ -14,10 +14,11 @@ public class Tabuleiro {
 
     Scanner entrada = new Scanner(System.in);
     String tabuleiroJogo[][] = new String[8][8];
-    String val;
+     
 //Preenche as posições iniciais das peças no tabuleiro
 
     public void inicializar() {
+        String val;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (i == 0 && j != 0) {
@@ -64,10 +65,10 @@ public class Tabuleiro {
 
         if (verificaFim) {
 
-            System.out.println("Digite para selecionar alguma das opções: ");
-            System.out.println("[A] Para adicionar uma jogada.");
-            System.out.println("[reiniciar] Para começar de novo.");
-            System.out.println("[sair] Para encerrar o jogo.");
+            System.out.println("Digite para selecionar uma das opções: ");
+            System.out.println("[A]         Adicionar uma jogada.");
+            System.out.println("[reiniciar] Reiniciar o jogo.");
+            System.out.println("[sair]      Sair.");
 
             opcaoJogo = entrada.nextLine();
 
@@ -104,7 +105,7 @@ public class Tabuleiro {
             if (decidir.equalsIgnoreCase("s")) {
                 inicializar();
             } else {
-
+                System.out.println("Fim de jogo!");
             }
         }
     }
