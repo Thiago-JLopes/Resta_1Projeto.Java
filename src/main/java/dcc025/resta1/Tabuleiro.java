@@ -246,13 +246,13 @@ public class Tabuleiro {
         for (int i = 1; i < 8; i++) {
             for (int j = 1; j < 8; j++) {
                 if (tabuleiroResta1[i][j].contains("1")) {
-                    if (tabuleiroResta1[i - 1][j].contains("1") && tabuleiroResta1[i - 2][j].contains("0")) {
+                    if (i - 2 > 0 && tabuleiroResta1[i - 1][j].contains("1") && tabuleiroResta1[i - 2][j].contains("0")) {
                         return true;
-                    } else if (tabuleiroResta1[i + 1][j].contains("1") && tabuleiroResta1[i + 2][j].contains("0")) {
+                    } else if (i + 2 < 8 && tabuleiroResta1[i + 1][j].contains("1") && tabuleiroResta1[i + 2][j].contains("0")) {
                         return true;
-                    } else if (tabuleiroResta1[i][j - 1].contains("1") && tabuleiroResta1[i][j - 2].contains("0")) {
+                    } else if (j - 2 > 0 && tabuleiroResta1[i][j - 1].contains("1") && tabuleiroResta1[i][j - 2].contains("0")) {
                         return true;
-                    } else if (tabuleiroResta1[i][j + 1].contains("1") && tabuleiroResta1[i][j + 2].contains("0")) {
+                    } else if (j + 2 < 8 && tabuleiroResta1[i][j + 1].contains("1") && tabuleiroResta1[i][j + 2].contains("0")) {
                         return true;
                     }
                 }
